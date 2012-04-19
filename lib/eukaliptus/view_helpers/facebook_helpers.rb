@@ -1,7 +1,7 @@
 module Eukaliptus
   module FacebookHelpers
     #Deprecated
-    def fb_login(perms = %w{email publish_stream})
+    def fb_login(scope = %w{email publish_stream})
       raise 'fb_login is a deprecated method. Please use use fb_init instead.'
     end
     
@@ -14,11 +14,11 @@ module Eukaliptus
     # Use it one time in your layout header for all pages, or add it to individual templates 
     # to ask the user for different permissions depending on the context, page, etc.
     def fb_init(options = {})
-      perms = (options[:perms] || %w{email publish_stream}).join(",")
+      scope = (options[:scope] || %w{email publish_stream}).join(",")
       locale = options[:locale] || "en_US"
 
       template = Erubis::Eruby.new File.new(File.dirname(__FILE__) + "/../templates/fb_init.erb").read
-      js = template.result(:perms => perms, :locale => locale)
+      js = template.result(:scope => scope, :locale => locale)
       
       js.html_safe
     end
